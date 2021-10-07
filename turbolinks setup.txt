@@ -1,0 +1,8 @@
+run 'npm install --save turbolinks
+
+copy the following code to this location resources/js/app.js
+
+var Turbolinks = require("turbolinks")
+Turbolinks.start()
+
+
