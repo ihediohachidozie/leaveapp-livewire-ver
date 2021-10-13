@@ -9,4 +9,12 @@ class Category extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    /**
+     * Get the category that the user belongs to.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

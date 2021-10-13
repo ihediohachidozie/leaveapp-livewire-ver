@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Department extends Model
+class Company extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
     
+    protected $guarded = [];
+
     /**
-     * Get the department that the user belongs to.
+     * Get the company that the user belongs to.
      */
     public function users()
     {

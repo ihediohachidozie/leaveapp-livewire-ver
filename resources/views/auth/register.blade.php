@@ -10,25 +10,63 @@
             @csrf
 
             <div>
-                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-label for="name" value="{{ __('Name') }}" /> 
                 <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            </div>
+            </div>  
 
-            <div class="mt-4">
+            <div class="mt-2">
                 <x-jet-label for="email" value="{{ __('Email') }}" />
                 <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
             </div>
 
-            <div class="mt-4">
-                <x-jet-label for="password" value="{{ __('Password') }}" />
-                <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            </div>
+         
+            <table class="w-full mt-2"> 
+                <tr>
+                    <td>
+                        <div>
+                            <x-jet-label for="username" value="{{ __('Username') }}" /> 
+                            <x-jet-input id="username" class="block mt-1 w-full" type="text" name="username" :value="old('username')" required autofocus autocomplete="username" />
+                        </div> 
+                    </td>
+                    <td>
+                        <div>
+                            <x-jet-label for="staff_id" value="{{ __('Staff Id') }}" /> 
+                            <x-jet-input id="staff_id" class="block mt-1 w-full" type="text" name="staff_id" :value="old('staff_id')" required autofocus autocomplete="staff_id" />
+                        </div>
+                    </td>
+                </tr>
 
-            <div class="mt-4">
-                <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-            </div>
+            </table>
+  
 
+            <div class="mt-2">
+                <x-jet-label for="company_id" value="{{ __('Company') }}" /> 
+                <select name="company_id" id="company_id" class="block mt-1 w-full rounded-md border-gray-400 shadow-sm opacity-70">
+                    @foreach ($data as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <table class="w-full">
+                <tr>
+                    <td>
+                        <div class="mt-4">
+                            <x-jet-label for="password" value="{{ __('Password') }}" />
+                            <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
+                        </div> 
+                    </td>
+                    <td>
+                        <div class="mt-4">
+                            <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
+                            <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+
+
+         
             @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
                 <div class="mt-4">
                     <x-jet-label for="terms">

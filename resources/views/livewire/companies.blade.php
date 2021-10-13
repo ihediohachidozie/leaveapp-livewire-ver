@@ -3,6 +3,7 @@
         {{ __(strtoupper(Request::route()->getName())) }} 
     </h2>
 </x-slot>
+
 <div class="p-6">
     <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
         <x-jet-button wire:click="createShowModal">
@@ -20,8 +21,7 @@
                         <thead>
                             <tr>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">S/N</th>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Public Holiday</th>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Date</th>
+                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Department</th>
                                 <th class="px-6 py-3 bg-gray-50 text-right text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -30,10 +30,7 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{$item->id}}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ strtoupper($item->description)}}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">
-                                            {{ date_format(date_create($item->date), "d-m-Y")}}
-                                        </td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ strtoupper($item->name)}}</td>
                                         <td class="px-6 py-4 text-right text-sm">
                                             <x-jet-button wire:click="updateShowModal({{ $item->id }})">
                                                 {{ __('Update') }}
@@ -46,7 +43,7 @@
                                 @endforeach
                             @else
                                 <tr>
-                                    <td class="px-6 py-4 text-sm whitespace-no-wrap text-center" colspan ='4'>No Result Found</td>
+                                    <td class="px-6 py-4 text-sm whitespace-no-wrap text-center" colspan ='3'>No Result Found</td>
                                 </tr>
                             @endif
                         </tbody>
@@ -63,28 +60,23 @@
 
 
 
-        <!-- Modal Form -->
+    <!-- Modal Form -->
         <x-jet-dialog-modal wire:model="modalFormVisible">
 
         <x-slot name="title">
             @if($modelId)
-            {{ __('Edit Public Holiday') }} 
+            {{ __('Edit Company') }} 
             @else
-                {{ __('Add Public Holiday') }} 
+                {{ __('Add Company') }} 
             @endif
             
         </x-slot>
 
         <x-slot name="content">
             <div class="mt-4">
-                <x-jet-label for="description" value="{{ __('Public Holiday') }}" />
-                <x-jet-input wire:model.lazy="description" id="description" class="block mt-1 w-full" type="text" />
-                @error('description') <span class="error">{{$message}}</span> @enderror
-            </div>
-            <div class="mt-4">
-                <x-jet-label for="date" value="{{ __('Date') }}" />
-                <x-jet-input wire:model.lazy="date" id="date" class="block mt-1 w-full" type="date"/>
-                @error('date') <span class="error">{{$message}}</span> @enderror
+                <x-jet-label for="name" value="{{ __('Name') }}" />
+                <x-jet-input wire:model.lazy="name" id="name" class="block mt-1 w-full" type="text" />
+                @error('name') <span class="error">{{$message}}</span> @enderror
             </div>
         </x-slot>
 
@@ -109,25 +101,25 @@
 
     <!-- Detele Modal -->
     <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
-        <x-slot name="title">
-            {{ __('Delete Holiday') }}
-        </x-slot>
-
-        <x-slot name="content">
-            {{ __('Are you sure you want to delete the public holiday date? Once the public holiday date is deleted, all of its resources and data will be permanently deleted.') }}
-
+            <x-slot name="title">
+                {{ __('Delete Company') }}
             </x-slot>
 
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
-            </x-jet-secondary-button>
+            <x-slot name="content">
+                {{ __('Are you sure you want to delete the company? Once the company is deleted, all of its resources and data will be permanently deleted.') }}
 
-            <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
-                {{ __('Delete') }}
-            </x-jet-danger-button>
-        </x-slot>
-    </x-jet-dialog-modal>
+             </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
+                    {{ __('Cancel') }}
+                </x-jet-secondary-button>
+
+                <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
+                    {{ __('Delete') }}
+                </x-jet-danger-button>
+            </x-slot>
+        </x-jet-dialog-modal>
 
 </div>
 

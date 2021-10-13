@@ -24,6 +24,15 @@
                     <x-jet-nav-link href="{{ route('publicholiday') }}" :active="request()->routeIs('publicholiday')">
                         {{ __('Holiday') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
+                        {{ __('Company') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                        {{ __('Users') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
+                        {{ __('Leave') }}
+                    </x-jet-nav-link>
                 </div>
             </div>
 
@@ -159,8 +168,17 @@
             <x-jet-responsive-nav-link href="{{ route('publicholiday') }}" :active="request()->routeIs('publicholiday')">
                 {{ __('Holiday') }}
             </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
+                {{ __('Company') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                {{ __('Users') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
+                {{ __('Leave') }}
+            </x-jet-responsive-nav-link>
         </div>
-
+        
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">

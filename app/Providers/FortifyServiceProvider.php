@@ -8,9 +8,12 @@ use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Fortify\Fortify;
+use App\Models\Company;
+use App\Models\User;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -42,6 +45,24 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        //      to login with either email, username, & staff id
+        Fortify::authenticateUsing(function (Request $request) {
+            $user = User::where('email', $request->login)
+            ->orWhere('username', $request->login)
+            ->orWhere('staff_id', $request->login)
+            ->first();
+    
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+        }); 
+
+        // to pass data to register view ie companies etc
+        Fortify::registerView(function () {
+            return view('auth.register', ['data' => Company::all()]);
         });
     }
 }

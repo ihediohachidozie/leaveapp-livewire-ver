@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPasswordNotification;
 
 class User extends Authenticatable
 {
@@ -23,12 +24,13 @@ class User extends Authenticatable
      *
      * @var string[]
      */
-    protected $fillable = [
+    /*
+        protected $fillable = [
         'name',
         'email',
         'password',
-    ];
-
+    ]; */
+    protected $guarded = [];
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -58,4 +60,46 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    /**
+     * Get the company for the users.
+     */
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    /**
+     * Get the category for the users.
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+ 
+    /**
+     * Get the department for the users.
+     */
+    public function department()
+    {
+        return $this->belongsTo(Department::class);  
+    }
+
+    
+    public function Leaves()
+    {
+        return $this->hasMany(Leave::class);     
+    } 
+    /**
+ * Send a password reset notification to the user.
+ *
+ * @param  string  $token
+ * @return void
+ */
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'https://leaveapp.ecmterminals.com/reset-password?token='.$token;
+
+        $this->notify(new ResetPasswordNotification($url));
+    }
 }

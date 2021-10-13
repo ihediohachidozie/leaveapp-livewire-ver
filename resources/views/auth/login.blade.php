@@ -7,8 +7,13 @@
         <x-jet-validation-errors class="mb-4" />
 
         @if (session('status'))
-            <div class="mb-4 font-medium text-sm text-green-600">
+            <div class="mb-4 font-medium text-sm text-center text-green-600">
                 {{ session('status') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="mb-4 font-medium text-center text-sm text-red-600">
+                    {{ session('error') }}
             </div>
         @endif
 
@@ -16,8 +21,8 @@
             @csrf
 
             <div>
-                <x-jet-label for="email" value="{{ __('Email') }}" />
-                <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
+                <x-jet-label for="login" value="{{ __('Email / Username / Staff ID') }}" />
+                <x-jet-input id="login" class="block mt-1 w-full" type="text" name="login" :value="old('login')" required autofocus />
             </div>
 
             <div class="mt-4">

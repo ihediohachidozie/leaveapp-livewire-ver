@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Departments;
 use App\Http\Livewire\Categories;
 use App\Http\Livewire\PublicHoliday;
-
+use App\Http\Livewire\Companies;
+use App\Http\Livewire\LeaveCard;
+use App\Http\Livewire\UsersList;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,10 @@ Route::group(['middleware' => [ 'auth:sanctum', 'verified']], function () {
     Route::get('/department', Departments::class)->name('department');
     Route::get('/category', Categories::class)->name('category');
     Route::get('/publicholiday', PublicHoliday::class)->name('publicholiday');
+    Route::get('/companies', Companies::class)->name('companies');
+    Route::get('/users', UsersList::class)->name('users');
+    Route::get('/leave', LeaveCard::class)->name('leave');
+
 
 });
 
