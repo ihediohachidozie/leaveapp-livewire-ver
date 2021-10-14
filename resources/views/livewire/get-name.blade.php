@@ -1,3 +1,3 @@
 <div>
-    {{$name}}
+    {{$firstname}} {{' '}} {{$lastname}}
 </div>

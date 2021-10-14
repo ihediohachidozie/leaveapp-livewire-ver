@@ -18,7 +18,8 @@ class GetName extends Component
     public function render()
     {
         return view('livewire.get-name',[
-            'name' => $this->retrieveName()->name
+            'firstname' => $this->retrieveName()->firstname,
+            'lastname' => $this->retrieveName()->lastname
         ]);
     }
 }

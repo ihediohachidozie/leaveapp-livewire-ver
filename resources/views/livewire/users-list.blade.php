@@ -29,7 +29,7 @@
                                 @foreach ($data as $item)
                                     <tr>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{$item->id}}</td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ strtoupper($item->name)}}</td>
+                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ strtoupper($item->firstname)}}{{' '}}{{ strtoupper($item->lastname)}}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->username}}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->staff_id}}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap"> 

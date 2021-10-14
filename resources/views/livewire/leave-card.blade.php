@@ -5,11 +5,13 @@
 </x-slot>
 <div class="p-6">
     @if(auth()->user()->category_id)
-        <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
-            <x-jet-button wire:click="createShowModal">
-                {{ __('Apply') }}
-            </x-jet-button>
-        </div>
+        @if($canApply == 0)
+            <div class="flex items-center justify-end px-4 py-3 text-right sm:px-6">
+                <x-jet-button wire:click="createShowModal">
+                    {{ __('Apply') }}
+                </x-jet-button>
+            </div>
+        @endif
     @endif
 
     <!-- The Data Table -->
@@ -57,7 +59,24 @@
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">
                                             @livewire('get-name', ['userid' => $item->approval_id])
                                         </td>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{$item->status}}</td>
+                                        @if($item->user_id == auth()->id())
+                                            @if($item->status == 0 || $item->status == 2)
+                                                <td class="px-6 py-4 text-sm whitespace-no-wrap text-red-500">
+                                                    <button wire:click="updateShowModal({{$item->id}})">
+                                                        {{$status[$item->status]}}
+                                                    </button>
+                                                </td>
+                                            @else
+                                                <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                                    {{$status[$item->status]}}
+                                                </td>
+                                            @endif
+                                        @else
+                                            <td class="px-6 py-4 text-sm whitespace-no-wrap">
+                                                {{$status[$item->status]}}
+                                            </td>
+                                        @endif
+
                                     </tr>
                                 @endforeach
                             @else
@@ -150,7 +169,7 @@
                                 <option></option>
                                 @if ($users->count())
                                     @foreach ($users as $user)
-                                        <option value="{{$user->id}}">{{$user->name}}</option>
+                                        <option value="{{$user->id}}">{{$user->firstname}} {{' '}} {{$user->lastname}}</option>
                                     @endforeach
                                 @endif
                             </select>
@@ -164,7 +183,7 @@
                                 <option></option>
                                 @if ($approvals->count())
                                     @foreach ($approvals as $approval)
-                                        <option value="{{$approval->id}}">{{$approval->name}}</option>
+                                        <option value="{{$approval->id}}">{{$approval->firstname}}</option>
                                     @endforeach
                                 @endif
                             </select>

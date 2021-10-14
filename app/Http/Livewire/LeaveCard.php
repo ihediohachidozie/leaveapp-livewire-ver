@@ -23,7 +23,7 @@ class LeaveCard extends Component
     public $modalConfirmDeleteVisible = false;
     public $modelId;
     public $leaveType = ['Annual', 'Casual', 'Maternity', 'Paternity', 'Study', 'Sick', 'Sabbatical', 'Examination'];
-
+    public $status = ['Open', 'Pending', 'Rejected', 'Approved'];
     /**
      * The livewire mount function
      *
@@ -100,7 +100,8 @@ class LeaveCard extends Component
             'duty_reliever' => $this->duty_reliever,
             'user_id' => auth()->id(),
             'approval_id' => $this->approval_id,
-            'allowance' => $this->allowance
+            'allowance' => $this->allowance,
+            'status' => 1
         ];
     }
 
@@ -118,6 +119,52 @@ class LeaveCard extends Component
         $this->resetVals();
     }
 
+    /**
+     * Shows the form modal
+     * in update mode. 
+     *
+     * @param  mixed $id
+     * @return void
+     */
+    public function updateShowModal($id)
+    {
+        $this->resetValidation();
+        $this->resetVals();
+        $this->modelId = $id;
+        $this->modalFormVisible = true;
+        $this->loadModel();
+    }
+
+    /**
+     * The load model data
+     * of this component.
+     *
+     * @return void
+     */
+    public function loadModel()
+    {
+        $data = Leave::find($this->modelId);
+        $this->start_date = $data->start_date;
+        $this->days_applied = $data->days_applied;
+        $this->year = $data->year;
+        $this->leave_type = $data->leave_type;
+        $this->duty_reliever = $data->duty_reliever;
+        $this->approval_id = $data->approval_id;
+        $this->allowance = $data->allowance;
+
+    }
+
+    /**
+     * The update function
+     *
+     * @return void
+     */
+    public function update()
+    {
+        $this->validate();
+        Leave::find($this->modelId)->update($this->modelData());
+        $this->modalFormVisible = false;
+    }
 
     /**
      * The livewire render function.
@@ -127,9 +174,10 @@ class LeaveCard extends Component
     public function render()
     {
         return view('livewire.leave-card',[
-            'data' => Leave::paginate(5),
+            'data' => Leave::where('user_id', auth()->id())->orWhere([['approval_id' => auth()->id()], ['status' => 1]])->paginate(5),
             'users' => User::all(),
-            'approvals' => User::where('approval_right', 1)->get()
+            'approvals' => User::where('approval_right', 1)->get(),
+            'canApply' => Leave::Where([['user_id', 2],['status', '<', 3]])->count()
             
         ]);
     }  

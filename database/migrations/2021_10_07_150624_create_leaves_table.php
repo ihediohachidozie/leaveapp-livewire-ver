@@ -23,7 +23,7 @@ class CreateLeavesTable extends Migration
             $table->integer('duty_reliever');
             $table->integer('approval_id');
             $table->integer('user_id');
-            $table->integer('status')->default(0);
+            $table->integer('status');
             $table->integer('allowance');
             $table->string('comment')->nullable();
             $table->timestamps();

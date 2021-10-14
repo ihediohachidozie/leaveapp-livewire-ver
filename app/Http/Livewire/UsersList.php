@@ -109,7 +109,7 @@ class UsersList extends Component
     {
         $data = User::find($this->modelId);
       //  dd($data);
-        $this->name = $data->name;
+        $this->name = $data->firstname . ' '. $data->lastname;
         $this->category_id = $data->category_id;
         $this->department_id = $data->department_id;
         $this->approvalRight = $data->approval_right;
