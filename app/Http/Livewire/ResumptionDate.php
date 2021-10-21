@@ -12,7 +12,7 @@ class ResumptionDate extends Component
     public $counter;
     public $days;
     public $publicHoliday = [];
-    
+
         
     /**
      * the leaveapp resume date

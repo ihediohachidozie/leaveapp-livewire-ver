@@ -1,12 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Departments;
-use App\Http\Livewire\Categories;
-use App\Http\Livewire\PublicHoliday;
+use App\Http\Livewire\ApplyCard;
 use App\Http\Livewire\Companies;
 use App\Http\Livewire\LeaveCard;
 use App\Http\Livewire\UsersList;
+use App\Http\Livewire\Categories;
+use App\Http\Livewire\Departments;
+use App\Http\Livewire\PublicHoliday;
+use App\Http\Livewire\UpdateLeave;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,9 @@ Route::group(['middleware' => [ 'auth:sanctum', 'verified']], function () {
     Route::get('/companies', Companies::class)->name('companies');
     Route::get('/users', UsersList::class)->name('users');
     Route::get('/leave', LeaveCard::class)->name('leave');
+    Route::get('/apply-leave', ApplyCard::class)->name('apply-leave');
+    Route::get('/update-leave/{model}', UpdateLeave::class)->name('update-leave');
+
 
 
 });

@@ -13,7 +13,7 @@ class EndDate extends Component
     public $days;
     public $publicHoliday = [];
     
-        
+
     /**
      * the leaveapp end date
      * function.
@@ -54,6 +54,7 @@ class EndDate extends Component
                 }    
             } 
          } 
+        
         return date_format($this->date,"d-m-Y");
     }
 
