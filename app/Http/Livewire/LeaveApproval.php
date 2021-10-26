@@ -2,20 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\User;
 use App\Models\Leave;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 
-
-class LeaveCard extends Component
+class LeaveApproval extends Component
 {
     use WithPagination;
 
+
+
     public $leaveType = ['Annual', 'Casual', 'Maternity', 'Paternity', 'Study', 'Sick', 'Sabbatical', 'Examination'];
     public $status = ['Open', 'Pending', 'Rejected', 'Approved'];
-
 
 
     /**
@@ -29,16 +28,6 @@ class LeaveCard extends Component
         $this->resetPage();
     }
     
-    /**
-     * Go to leave form
-     * .
-     *
-     * @return void
-     */
-    public function applyLeave()
-    {
-        return redirect()->to('/apply-leave');
-    }
 
     /**
      * The read Leave
@@ -48,25 +37,23 @@ class LeaveCard extends Component
      */
     public function readLeave()
     {
-        return Leave::Where('user_id', auth()->id())
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+        return Leave::where([
+            ['approval_id', auth()->id()], 
+            ['status', 1]
+        ])->paginate(10);
          
     }
-    
-  
+
     /**
-     * The livewire render function.
+     * render function
+     * of the component
      *
      * @return void
      */
     public function render()
     {
-        return view('livewire.leave-card', [
-            'data' => $this->readLeave(),
- 
-            'canApply' => Leave::Where([['user_id', auth()->id()],['status', '<', 3]])->count(),
-           
+        return view('livewire.leave-approval',[
+            'data' => $this->readLeave()
         ]);
-    }  
+    }
 }

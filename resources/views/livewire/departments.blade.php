@@ -60,7 +60,7 @@
 
 
     <!-- Modal Form -->
-        <x-jet-dialog-modal wire:model="modalFormVisible">
+    <x-jet-dialog-modal wire:model="modalFormVisible">
 
         <x-slot name="title">
             @if($modelId)
@@ -100,24 +100,24 @@
 
     <!-- Detele Modal -->
     <x-jet-dialog-modal wire:model="modalConfirmDeleteVisible">
-            <x-slot name="title">
-                {{ __('Delete Department') }}
+        <x-slot name="title">
+            {{ __('Delete Department') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you want to delete the department? Once the department is deleted, all of its resources and data will be permanently deleted.') }}
+
             </x-slot>
 
-            <x-slot name="content">
-                {{ __('Are you sure you want to delete the department? Once the department is deleted, all of its resources and data will be permanently deleted.') }}
+        <x-slot name="footer">
+            <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-jet-secondary-button>
 
-             </x-slot>
-
-            <x-slot name="footer">
-                <x-jet-secondary-button wire:click="$toggle('modalConfirmDeleteVisible')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-jet-secondary-button>
-
-                <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
-                    {{ __('Delete') }}
-                </x-jet-danger-button>
-            </x-slot>
-        </x-jet-dialog-modal>
+            <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </x-jet-danger-button>
+        </x-slot>
+    </x-jet-dialog-modal>
 
 </div>

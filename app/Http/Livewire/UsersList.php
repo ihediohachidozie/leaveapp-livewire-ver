@@ -24,6 +24,8 @@ class UsersList extends Component
     public $modalConfirmDisableVisible = false;
     public $modalConfirmEnableVisible = false;
     public $modelId;
+    public $search;
+    protected $queryString = ['search'];
     
 
     public $count = 0;
@@ -55,7 +57,10 @@ class UsersList extends Component
      */
     public function read()
     {
-        return User::paginate(5);
+        $search = '%'.$this->search.'%';
+        return User::where('firstname', 'LIKE', '%'.$this->search.'%')
+        ->orWhere('lastname', 'LIKE', '%'.$this->search.'%')
+        ->paginate(10);
     }
     
     /**

@@ -2,8 +2,13 @@
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ __(strtoupper(Request::route()->getName())) }} 
     </h2>
-</x-slot>
+</x-slot> 
 <div class="p-6">
+    <!--  The search bar -->
+    <div class="flex space-x-4 items-center justify-end px-4 pb-3 text-right sm:px-6">
+        <x-jet-input wire:model.debounce.100ms="search" id="search" class="block mt-1 w-1/2" type="text" placeholder="Enter staff name..."/>
+
+    </div>
 
     <!-- The Data Table -->
     <div class="flex flex-col">

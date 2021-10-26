@@ -2,22 +2,19 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\User;
 use App\Models\Leave;
 use Livewire\Component;
 use Livewire\WithPagination;
-use Illuminate\Validation\Rule;
 
-
-class LeaveCard extends Component
+class LeavePayment extends Component
 {
     use WithPagination;
-
+    
+    public $item;
     public $leaveType = ['Annual', 'Casual', 'Maternity', 'Paternity', 'Study', 'Sick', 'Sabbatical', 'Examination'];
     public $status = ['Open', 'Pending', 'Rejected', 'Approved'];
 
-
-
+    protected $listeners = ['payment'];
     /**
      * The livewire mount function
      *
@@ -28,16 +25,17 @@ class LeaveCard extends Component
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
-    
-    /**
-     * Go to leave form
-     * .
-     *
-     * @return void
-     */
-    public function applyLeave()
+
+    public function payment($item)
     {
-        return redirect()->to('/apply-leave');
+        //dd($item);
+        $this->item = $item;
+
+        Leave::find($this->item)->update([
+            'allowance' => 3
+        ]);
+        session()->flash('message', 'Leave allowance successfully paid.');
+        # code...
     }
 
     /**
@@ -48,25 +46,22 @@ class LeaveCard extends Component
      */
     public function readLeave()
     {
-        return Leave::Where('user_id', auth()->id())
-        ->orderBy('id', 'desc')
-        ->paginate(10);
+        return Leave::where([
+            ['allowance', 1]
+        ])->paginate(10);
          
     }
-    
-  
+
     /**
-     * The livewire render function.
+     * render function
+     * of the component
      *
      * @return void
      */
     public function render()
     {
-        return view('livewire.leave-card', [
-            'data' => $this->readLeave(),
- 
-            'canApply' => Leave::Where([['user_id', auth()->id()],['status', '<', 3]])->count(),
-           
+        return view('livewire.leave-payment', [
+            'data' => $this->readLeave()
         ]);
-    }  
+    }
 }

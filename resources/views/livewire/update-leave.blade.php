@@ -134,7 +134,7 @@
                 {{ __('Cancel') }}
             </x-jet-secondary-button>
 
-            @if ($statusCheck == 1 || $statusCheck == 0)
+            @if ($statusCheck == 1 || $statusCheck == 3)
             <x-jet-button  wire:loading.attr="disabled" wire:target="photo" disabled>
                 {{ __('Update') }}
             </x-jet-button>

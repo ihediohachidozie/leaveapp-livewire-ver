@@ -15,6 +15,7 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
+
                     <x-jet-nav-link href="{{ route('department') }}" :active="request()->routeIs('department')">
                         {{ __('Department') }}
                     </x-jet-nav-link>
@@ -131,8 +132,8 @@
                                 @csrf
 
                                 <x-jet-dropdown-link href="{{ route('logout') }}"
-                                         onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    onclick="event.preventDefault();
+                                        this.closest('form').submit();">
                                     {{ __('Log Out') }}
                                 </x-jet-dropdown-link>
                             </form>

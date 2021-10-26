@@ -185,6 +185,7 @@ class ApplyCard extends Component
             $this->resetVals();
 
             session()->flash('success', 'Leave application successful!');
+            $this->back();
         }
         else{
 
