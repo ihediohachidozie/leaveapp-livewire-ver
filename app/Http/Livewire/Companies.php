@@ -2,27 +2,33 @@
 
 namespace App\Http\Livewire;
 
-use Livewire\Component;
-use Illuminate\Validation\Rule;
 use App\Models\Company;
+use Livewire\Component;
 use Livewire\WithPagination; 
+use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Companies extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
+    
     public $name;
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
     public $modelId;
 
+    public $company;
 
-      /**
+
+    /**
      * The livewire mount function
      *
      * @return void
      */
-    public function mount()
+    public function mount(Company $company)
     {
+        $this->company = $company;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -72,7 +78,7 @@ class Companies extends Component
      */
     public function read()
     {
-        return Company::paginate(5);
+        return Company::where('id', '<>', 1)->paginate(5);
     }
     
     /**
@@ -187,6 +193,8 @@ class Companies extends Component
 
     public function render()
     {
+        $this->authorize('view', $this->company);
+
         return view('livewire.companies', [
             'data' => $this->read()
         ]);

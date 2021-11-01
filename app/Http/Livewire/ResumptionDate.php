@@ -23,7 +23,8 @@ class ResumptionDate extends Component
     public function resumeDate()
     {
 
-        $this->publicHoliday = Public_Holiday::pluck('date');
+        $this->publicHoliday = Public_Holiday::where('company_id', auth()->user()->company_id)
+        ->pluck('date');
 
         $this->counter = 1;
 

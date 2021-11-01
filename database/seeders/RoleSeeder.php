@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CompanySeeder extends Seeder
+class RoleSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,16 +15,16 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
-        $companies = ['De Royce Solutions', 'ECM Terminals Ltd', 'ECM Terminals Oil & Gas Logistics Ltd', 'Daddo Maritime Services', 'Shipping & Terminals Logistics'];
+        $roles = ['Administrator', 'Super-user', 'User'];
 
-        foreach($companies as $company)
+        foreach($roles as $role)
         {
-            DB::table('companies')->insert([
-                'name' => $company,
+            DB::table('roles')->insert([
+                'name' => $role,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-    
             ]);
         }
+        //
     }
 }

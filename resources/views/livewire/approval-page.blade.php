@@ -10,7 +10,7 @@
         </x-slot>
 
         <x-slot name="description">
-            {{ __('Update your account\'s profile information and email address.') }}
+            {{ __('Check either Approved or Rejected with the corresponding commnet and click on Send button.') }}
             
         </x-slot>
 

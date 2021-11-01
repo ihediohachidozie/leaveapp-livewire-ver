@@ -3,19 +3,23 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Validation\Rule;
-use App\Models\Public_Holiday;
 use Livewire\WithPagination;
+use App\Models\Public_Holiday;
+use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PublicHoliday extends Component
 {
 
     use WithPagination;
+    use AuthorizesRequests;
+
     public $description;
     public $date;
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
     public $modelId;
+    public $public_holiday;
 
 
 
@@ -24,8 +28,9 @@ class PublicHoliday extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(Public_Holiday $public_holiday)
     {
+        $this->public_holiday = $public_holiday;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -77,7 +82,8 @@ class PublicHoliday extends Component
      */
     public function read()
     {
-        return Public_Holiday::paginate(5);
+        return Public_Holiday::where('company_id', auth()->user()->company_id)
+        ->paginate(10);
     }
     
     /**
@@ -157,7 +163,8 @@ class PublicHoliday extends Component
     {
         return [
             'description' => $this->description,
-            'date' => $this->date
+            'date' => $this->date,
+            'company_id' => auth()->user()->company_id
         ];
     }
 
@@ -193,6 +200,8 @@ class PublicHoliday extends Component
      */
     public function render()
     {
+        $this->authorize('view', $this->public_holiday);
+
         return view('livewire.public-holiday', [
             'data' => $this->read(),
         ]);

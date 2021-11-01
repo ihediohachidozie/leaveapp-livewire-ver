@@ -80,6 +80,16 @@ class User extends Authenticatable
     /**
      * Get the department for the users.
      */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);  
+    }    
+
+
+
+    /**
+     * Get the department for the users.
+     */
     public function department()
     {
         return $this->belongsTo(Department::class);  

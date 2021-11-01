@@ -24,7 +24,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Laravel has wonderful documentation covering every aspect of the framework. Whether you're new to the framework or have previous experience, we recommend reading all of the documentation from beginning to end.
+                List of leaves to approve.
             </div>
 
             <a href="{{ route('leave-approval') }}">
@@ -47,7 +47,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Laracasts offers thousands of video tutorials on Laravel, PHP, and JavaScript development. Check them out, see for yourself, and massively level up your development skills in the process.
+                List of approved leave applications and exclusive to super users.
                 <a href="{{route('approved-leave')}}">
                     <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                             <div>View Approved Leave</div>
@@ -70,8 +70,8 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Laravel Jetstream is built with Tailwind, an amazing utility first CSS framework that doesn't get in your way. You'll be amazed how easily you can build and maintain fresh, modern designs with this wonderful framework at your fingertips.
-            </div>
+                List of leave allowance payment requests and exclusive to super users.
+            </div> 
             <a href="{{route('leave-allowance')}}">
                 <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                     <div>@livewire('payment-request')</div>
@@ -92,7 +92,7 @@
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Authentication and registration views are included with Laravel Jetstream, as well as support for user email verification and resetting forgotten passwords. So, you're free to get started what matters most: building your application.
+            List of all staff leave applications summary and exclusive to super users.
             </div>
             <a href="{{route('leave-summary')}}">
                 <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
@@ -107,13 +107,13 @@
     </div>
     <div class="p-6 border-t border-gray-200">
         <div class="flex items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path></svg>
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"><a href="{{route('staff-leave-summary')}}">Leave Summary</a></div>
         </div>
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Laravel Jetstream is built with Tailwind, an amazing utility first CSS framework that doesn't get in your way. You'll be amazed how easily you can build and maintain fresh, modern designs with this wonderful framework at your fingertips.
+                Staff leave applications summary..
             </div>
             <a href="{{route('staff-leave-summary')}}">
                 <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
@@ -129,13 +129,13 @@
 
     <div class="p-6 border-t border-gray-200 md:border-l">
         <div class="flex items-center">
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-400"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <div class="ml-4 text-lg text-gray-600 leading-7 font-semibold"> <a href="{{route('open-leave-status')}}">Open Staff Leave Application</a> </div>
         </div>
 
         <div class="ml-12">
             <div class="mt-2 text-sm text-gray-500">
-                Authentication and registration views are included with Laravel Jetstream, as well as support for user email verification and resetting forgotten passwords. So, you're free to get started what matters most: building your application.
+                The list of all staff approved leave applications and exclusive to super users..
             </div>
             <a href="{{route('open-leave-status')}}">
                 <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">

@@ -3,17 +3,23 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Validation\Rule;
 use App\Models\Department;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
+use App\Traits\WithAuthorization;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Departments extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
+
     public $name;
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
     public $modelId;
+
+    public $department;
 
             
     /**
@@ -21,8 +27,9 @@ class Departments extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(Department $department)
     {
+        $this->department = $department;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -72,7 +79,8 @@ class Departments extends Component
      */
     public function read()
     {
-        return Department::paginate(5);
+        return Department::where('company_id', auth()->user()->company_id)
+        ->paginate(5);
     }
     
     /**
@@ -150,7 +158,8 @@ class Departments extends Component
     public function modelData()
     {
         return [
-            'name' => $this->name
+            'name' => $this->name,
+            'company_id' => auth()->user->company_id
         ];
     }
 
@@ -186,8 +195,11 @@ class Departments extends Component
      */
     public function render()
     {
+        $this->authorize('view', $this->department);
+
         return view('livewire.departments', [
             'data' => $this->read(),
         ]);
+
     }
 }

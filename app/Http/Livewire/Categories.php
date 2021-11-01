@@ -3,18 +3,22 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
-use Illuminate\Validation\Rule;
 use App\Models\Category;
 use Livewire\WithPagination;
+use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Categories extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
+    
     public $name;
     public $days;
     public $modalFormVisible = false;
     public $modalConfirmDeleteVisible = false;
     public $modelId;
+    public $category;
 
             
     /**
@@ -22,8 +26,9 @@ class Categories extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(Category $category)
     {
+        $this->category = $category;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -75,7 +80,8 @@ class Categories extends Component
      */
     public function read()
     {
-        return Category::paginate(5);
+        return Category::where('company_id', auth()->user()->company_id)
+        ->paginate(5);
     }
     
     /**
@@ -155,7 +161,8 @@ class Categories extends Component
     {
         return [
             'name' => $this->name,
-            'days' => $this->days
+            'days' => $this->days,
+            'company_id' => auth()->user->company_id
         ];
     }
 
@@ -191,22 +198,13 @@ class Categories extends Component
      */
     public function render()
     {
+        $this->authorize('view', $this->category);
+
         return view('livewire.categories', [
             'data' => $this->read(),
         ]);
+
     }
 }
 
-/* <?php
 
-namespace App\Http\Livewire;
-
-use Livewire\Component;
-
-class Categories extends Component
-{
-    public function render()
-    {
-        return view('livewire.categories');
-    }
-} */

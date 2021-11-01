@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             DepartmentSeeder::class,
             CategorySeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

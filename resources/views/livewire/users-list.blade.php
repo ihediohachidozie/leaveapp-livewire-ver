@@ -18,7 +18,7 @@
                     <table class="w-full divide-y divide-gray-200">
                         <thead>
                             <tr>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">S/N</th>
+                                <!-- <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">S/N</th> -->
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">name</th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">username</th>
                                 <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">staff id</th>
@@ -33,7 +33,7 @@
                             @if ($data->count())
                                 @foreach ($data as $item)
                                     <tr>
-                                        <td class="px-6 py-4 text-sm whitespace-no-wrap">{{$item->id}}</td>
+                                        <!-- <td class="px-6 py-4 text-sm whitespace-no-wrap">{{$item->id}}</td> -->
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ strtoupper($item->firstname)}}{{' '}}{{ strtoupper($item->lastname)}}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->username}}</td>
                                         <td class="px-6 py-4 text-sm whitespace-no-wrap">{{ $item->staff_id}}</td>

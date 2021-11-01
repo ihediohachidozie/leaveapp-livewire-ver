@@ -37,8 +37,8 @@ class DataTable extends Component
     {
         return view('livewire.data-table', [
             'data' => $this->readLeave(),
-            'users' => User::where('id', '<>', auth()->id())->get(),
-            'approvals' => User::where('approval_right', 1)->get(),
+            'users' => User::where([['id', '<>', auth()->id()], ['company_id', auth()->user()->company_id]])->get(),
+            'approvals' => User::where([['approval_right', 1], ['company_id', auth()->user()->company_id]])->get(),
             'canApply' => Leave::Where([['user_id', auth()->id()],['status', '<', 3]])->count(),
         ]);
     }

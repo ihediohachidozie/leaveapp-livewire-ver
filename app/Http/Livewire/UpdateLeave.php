@@ -5,6 +5,8 @@ namespace App\Http\Livewire;
 use App\Models\User;
 use App\Models\Leave;
 use Livewire\Component;
+use App\Mail\LeaveApprovalRequest;
+use Illuminate\Support\Facades\Mail;
 
 class UpdateLeave extends Component
 {
@@ -175,14 +177,14 @@ class UpdateLeave extends Component
             {
                 $this->outstandingDays = intval($this->approvedDays()) - $this->days_applied;
 
-                $this->updateSub();
+                $this->updateSub($this->approval_id);
 
             }
             elseif(intval($this->getOutstandingDays()) >= $this->days_applied)
             {
                 $this->outstandingDays = intval($this->getOutstandingDays()) - $this->days_applied;
 
-                $this->updateSub();
+                $this->updateSub($this->approval_id);
 
             }else{
 
@@ -205,16 +207,21 @@ class UpdateLeave extends Component
      * @param  mixed $var
      * @return void
      */
-    public function updateSub()
+    public function updateSub($id)
     {
         if($this->approvedDays() >= $this->days_applied)
         {
             $this->validate();
            
             Leave::find($this->modelId)->update($this->modelData($this->outstandingDays));
-            $this->statusCheck = 1;
-            session()->flash('success', 'Leave application updated successful!');
 
+            $this->statusCheck = 1;
+
+            $approval_email = User::find($id);
+
+            Mail::to($approval_email->email)->queue(new LeaveApprovalRequest());
+
+            session()->flash('success', 'Leave application updated successful!');
         
         }
         else{
@@ -222,7 +229,33 @@ class UpdateLeave extends Component
             session()->flash('session', 'Value is greater than approved days');
         }
     }
+        
+    /**
+     * the getUsers function
+     *
+     * @return void
+     */
+    public function getUsers()
+    {
+        return User::whereNotIn('id', [1, auth()->id()])
+            ->where('company_id', auth()->user()->company_id) 
+            ->get();
+    }
     
+    /**
+     * getApprovals function
+     *
+     * @return void
+     */
+    public function getApprovals()
+    {
+        return User::whereNotIn('id', [1, auth()->id()])
+            ->where([
+                ['approval_right', 1],
+                ['company_id', auth()->user()->company_id]
+                ])->get();
+    }
+
     /**
      * render function
      *
@@ -231,8 +264,10 @@ class UpdateLeave extends Component
     public function render()
     {
         return view('livewire.update-leave', [
-            'users' => User::where('id', '<>', auth()->id())->get(),
-            'approvals' => User::where('approval_right', 1)->get()
+           
+            'users' => $this->getUsers(),
+
+            'approvals' => $this->getApprovals()
         ]);
     }
 }

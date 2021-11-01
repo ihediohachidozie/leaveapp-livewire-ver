@@ -2,11 +2,13 @@
 
 namespace App\Actions\Fortify;
 
+use App\Mail\UserActivationRequest;
 use App\Models\User;
+use Laravel\Jetstream\Jetstream;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
-use Laravel\Jetstream\Jetstream;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -32,7 +34,8 @@ class CreateNewUser implements CreatesNewUsers
             'terms' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ])->validate();
  
-        return User::create([
+
+        $registeredUser = User::create([
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'email' => $input['email'],
@@ -41,5 +44,23 @@ class CreateNewUser implements CreatesNewUsers
             'company_id' => $input['company_id'],
             'password' => Hash::make($input['password']),
         ]);
+
+        $users = User::where([
+            ['company_id', $input['company_id']],
+            ['role_id', 2]
+        ])->pluck('email');
+
+        if($users->count() > 0)
+        {
+            foreach($users as $user)
+            {
+                Mail::to($user)->queue(new UserActivationRequest($registeredUser));
+    
+            }
+        }else{
+            Mail::to('infotech@ecmterminals.com')->queue(new UserActivationRequest($registeredUser));
+        }
+
+        return $registeredUser;
     }
 }

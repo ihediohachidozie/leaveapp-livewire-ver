@@ -17,6 +17,7 @@ use App\Http\Livewire\AllLeaveSummary;
 use App\Http\Livewire\OpenLeaveStatus;
 use App\Http\Livewire\SearchResult;
 use App\Http\Livewire\StaffLeaveSummary;
+use App\Http\Livewire\SuperUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,5 +63,7 @@ Route::group(['middleware' => [ 'auth:sanctum', 'verified']], function () {
     Route::get('/leave-summary', AllLeaveSummary::class)->name('leave-summary');
     Route::get('/staff-leave-summary', StaffLeaveSummary::class)->name('staff-leave-summary');
     Route::get('/open-leave-status', OpenLeaveStatus::class)->name('open-leave-status');
-});
+    Route::get('/user-roles', SuperUsers::class)->name('user-roles');
+
+}); 
 

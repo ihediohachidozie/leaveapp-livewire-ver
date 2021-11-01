@@ -62,7 +62,7 @@ class FortifyServiceProvider extends ServiceProvider
 
         // to pass data to register view ie companies etc
         Fortify::registerView(function () {
-            return view('auth.register', ['data' => Company::all()]);
+            return view('auth.register', ['data' => Company::where('id', '<>', 1)->get()]);
         });
     }
 }

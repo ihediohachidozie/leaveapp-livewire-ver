@@ -15,25 +15,34 @@
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
-
+                  @if(auth()->user()->role_id == 2)
                     <x-jet-nav-link href="{{ route('department') }}" :active="request()->routeIs('department')">
                         {{ __('Department') }}
                     </x-jet-nav-link>
+                 
                     <x-jet-nav-link href="{{ route('category') }}" :active="request()->routeIs('category')">
                         {{ __('Category') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('publicholiday') }}" :active="request()->routeIs('publicholiday')">
                         {{ __('Holiday') }}
                     </x-jet-nav-link>
-                    <x-jet-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
-                        {{ __('Company') }}
-                    </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
                         {{ __('Users') }}
                     </x-jet-nav-link>
+                @endif
+                @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2)
                     <x-jet-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
                         {{ __('Leave') }}
                     </x-jet-nav-link>
+                @endif
+                @if(auth()->user()->role_id == 1)
+                    <x-jet-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
+                        {{ __('Company') }}
+                    </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('user-roles') }}" :active="request()->routeIs('user-roles')">
+                        {{ __('Roles') }}
+                    </x-jet-nav-link>
+                @endif
                 </div>
             </div>
 
@@ -176,6 +185,9 @@
                 {{ __('Users') }}
             </x-jet-responsive-nav-link>
             <x-jet-responsive-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
+                {{ __('Leave') }}
+            </x-jet-responsive-nav-link>
+            <x-jet-responsive-nav-link href="{{ route('user-roles') }}" :active="request()->routeIs('user-roles')">
                 {{ __('Leave') }}
             </x-jet-responsive-nav-link>
         </div>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\LeaveApprovalConfirmation;
 use App\Models\Leave;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
 
 class ApprovalPage extends Component
 {
@@ -113,17 +115,27 @@ class ApprovalPage extends Component
     {
         $this->validate();
         //dd($this->comment);
+        $leave = Leave::find($this->modelId);
+        $staff_mail = $leave->user->email;
+        $staff_name = $leave->user->firstname .' '. $leave->user->lastname;
 
         if(intval($this->checkPayment()) == 0)
         {
             Leave::find($this->modelId)->update($this->modelData());
+
         }else{
+
             Leave::find($this->modelId)->update([
                 'comment' => $this->comment,
                 'status' => $this->statusResult,
                 'allowance' => 3
             ]);
         }
+
+        $approval_mail = auth()->user()->email;
+
+        Mail::to($staff_mail)->queue(new LeaveApprovalConfirmation($this->statusResult, $this->comment, $staff_name, $approval_mail));
+
         session()->flash('success', 'Leave application approved successful!');
         $this->back();
     }

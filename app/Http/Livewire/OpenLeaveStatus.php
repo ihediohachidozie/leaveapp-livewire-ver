@@ -6,25 +6,31 @@ use App\Models\User;
 use App\Models\Leave;
 use Livewire\Component;
 use Livewire\WithPagination; 
+use App\Mail\LeaveStatusChanged;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class OpenLeaveStatus extends Component
 {
 
     use WithPagination;
+    use AuthorizesRequests;
+    
     public $item;
     public $leaveType = ['Annual', 'Casual', 'Maternity', 'Paternity', 'Study', 'Sick', 'Sabbatical', 'Examination'];
     public $status = ['Open', 'Pending', 'Rejected', 'Approved'];
     public $search;
     protected $queryString = ['search'];
+    public $leave;
 
     /**
      * The livewire mount function
      *
      * @return void
      */
-    public function mount()
+    public function mount(Leave $leave)
     {
-        # $this->search = $string;
+         $this->leave = $leave;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -39,8 +45,8 @@ class OpenLeaveStatus extends Component
     public function readLeave()
     {
         //$search = '%'.$this->search.'%';
-        $users = User::where('firstname', 'LIKE', '%'.$this->search.'%')
-        ->orWhere('lastname', 'LIKE', '%'.$this->search.'%')
+        $users = User::where([['firstname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
+        ->orWhere([['lastname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
         ->pluck('id');
 
         return Leave::WhereIn('user_id', $users)        
@@ -108,7 +114,10 @@ class OpenLeaveStatus extends Component
                     'status' => 0
                 ]);
                 session()->flash('message', 'Leave application successfully opened.');
-               
+
+                $superuser = auth()->user()->email;
+
+                Mail::to($this->leave->user->email)->queue(new LeaveStatusChanged($this->leave, $superuser));
 
             }else{
                 session()->flash('message', 'Only the last leave application for a particular can be opened.');
@@ -128,7 +137,8 @@ class OpenLeaveStatus extends Component
 
     public function render()
     {
-                
+        $this->authorize('view', $this->leave);
+
         return view('livewire.open-leave-status', [
             'data' => $this->readLeave()
         ]);

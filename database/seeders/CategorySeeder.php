@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class CategorySeeder extends Seeder
 {
@@ -14,17 +15,21 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        DB::table('categories')->insert([
-            'name' => 'Management',
-            'days' => '30'
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Senior',
-            'days' => '25'
-        ]);
-        DB::table('categories')->insert([
-            'name' => 'Junior',
-            'days' => '20'
-        ]);
+        $categories = [
+            'Management' => 30,
+            'Senior' => 25,
+            'Junior' => 20,
+         ];
+        
+        foreach ($categories as $name => $days) {
+             DB::table('categories')->insert([
+                'name' => $name,
+                'days' => $days,
+                'company_id' => 2,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ]);
+        }
+
     }
 }

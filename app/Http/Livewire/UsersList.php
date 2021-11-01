@@ -2,16 +2,21 @@
 
 namespace App\Http\Livewire;
 
-use App\Models\Category;
+use App\Mail\UserActivated;
 use App\Models\User;
 use Livewire\Component;
+use App\Models\Category;
 use App\Models\Department;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class UsersList extends Component
 {
     use WithPagination;
+    use AuthorizesRequests;
+    
     public $name;
     public $username;
     public $staffid;
@@ -25,7 +30,10 @@ class UsersList extends Component
     public $modalConfirmEnableVisible = false;
     public $modelId;
     public $search;
+    public $email;
     protected $queryString = ['search'];
+
+    public $model;
     
 
     public $count = 0;
@@ -40,8 +48,9 @@ class UsersList extends Component
      *
      * @return void
      */
-    public function mount()
+    public function mount(User $model)
     {
+        $this->model = $model;
         # Reset pagination after reloading the page.
         $this->resetPage();
     }
@@ -58,8 +67,8 @@ class UsersList extends Component
     public function read()
     {
         $search = '%'.$this->search.'%';
-        return User::where('firstname', 'LIKE', '%'.$this->search.'%')
-        ->orWhere('lastname', 'LIKE', '%'.$this->search.'%')
+        return User::where([['firstname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
+        ->orWhere([['lastname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
         ->paginate(10);
     }
     
@@ -71,12 +80,12 @@ class UsersList extends Component
      */
     public function readDepartment()
     {
-        return Department::all();
+        return Department::where('company_id', auth()->user()->company_id)->get();
     }
 
     public function readCategory()
     {
-        return Category::all();
+        return Category::where('company_id', auth()->user()->company_id)->get();
     }
     /**
      * Reset all the variables
@@ -118,6 +127,7 @@ class UsersList extends Component
         $this->category_id = $data->category_id;
         $this->department_id = $data->department_id;
         $this->approvalRight = $data->approval_right;
+        $this->email = $data->email;
     }
 
     /**
@@ -159,7 +169,8 @@ class UsersList extends Component
       
         $this->validate();
         User::find($this->modelId)->update($this->modelData());
-        $this->modalFormVisible = false;
+        $this->modalFormVisible = false; 
+        Mail::to($this->email)->queue(new UserActivated($this->name));
     }
 
     /**
@@ -227,10 +238,14 @@ class UsersList extends Component
      */
     public function render()
     {
+        $this->authorize('view', $this->model);
+        
         return view('livewire.users-list',[
             'data' => $this->read(),
             'dataDep' => $this->readDepartment(),
             'dataCat' => $this->readCategory()
-         ]);
+        ]);
+      
+
     }
 }

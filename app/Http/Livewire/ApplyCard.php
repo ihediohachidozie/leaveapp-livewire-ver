@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\LeaveApprovalRequest;
 use App\Models\User;
 use App\Models\Leave;
 use Livewire\Component;
+use Illuminate\Support\Facades\Mail;
 
 
 
@@ -146,15 +148,16 @@ class ApplyCard extends Component
             if(intval($this->getOutstandingDays()) == 0)
             {
                 $this->outstandingDays = intval($this->approvedDays()) - $this->days_applied;
-
-                $this->createSub();
+               
+                $this->createSub($this->approval_id);
 
             }
             elseif(intval($this->getOutstandingDays()) >= $this->days_applied)
             {
                 $this->outstandingDays = intval($this->getOutstandingDays()) - $this->days_applied;
 
-                $this->createSub();
+                
+                $this->createSub($this->approval_id);
 
             }else{
 
@@ -176,7 +179,7 @@ class ApplyCard extends Component
      *
      * @return void
      */
-    public function createSub()
+    public function createSub($id)
     {
         if(intval($this->checkSameDate()) == 0 )
         {
@@ -184,7 +187,12 @@ class ApplyCard extends Component
             Leave::create($this->modelData($this->outstandingDays ));
             $this->resetVals();
 
+            //dd($id);
+            $approval_email = User::find($id);
+
             session()->flash('success', 'Leave application successful!');
+            // send mail to approval id
+            Mail::to($approval_email->email)->queue(new LeaveApprovalRequest());
             $this->back();
         }
         else{
@@ -193,6 +201,31 @@ class ApplyCard extends Component
         }
     }
 
+    /**
+     * the getUsers function
+     *
+     * @return void
+     */
+    public function getUsers()
+    {
+        return User::whereNotIn('id', [1, auth()->id()])
+            ->where('company_id', auth()->user()->company_id) 
+            ->get();
+    }
+    
+    /**
+     * getApprovals function
+     *
+     * @return void
+     */
+    public function getApprovals()
+    {
+        return User::whereNotIn('id', [1, auth()->id()])
+            ->where([
+                ['approval_right', 1],
+                ['company_id', auth()->user()->company_id]
+                ])->get();
+    }
 
     /**
      * render function
@@ -201,12 +234,13 @@ class ApplyCard extends Component
      */
     public function render()
     {
+        //dd($this->getApprovals()->count());
+
         return view('livewire.apply-card', [
-            'users' => User::where('id', '<>', auth()->id())->get(),
-            'approvals' => User::where([
-                ['approval_right','=', 1],
-                ['id', '<>', auth()->id()]
-            ])->get(),
+
+            'users' => $this->getUsers(),
+
+            'approvals' => $this->getApprovals(),
         ]);  
     }
 }

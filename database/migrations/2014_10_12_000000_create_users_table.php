@@ -24,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->integer('category_id')->nullable();
             $table->integer('department_id')->nullable();
             $table->boolean('status')->default(1);
+            $table->integer('role_id')->default(3);
             $table->boolean('approval_right')->default(0);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
