@@ -58,7 +58,9 @@ class OffDuty extends Component
     {
         $year = date('Y');
         
-        $leaves = Leave::whereYear('start_date', $year)->get();
+        $leaves = Leave::whereYear('start_date', $year)
+        ->where('company_id', auth()->user()->company_id)
+        ->get();
         
         foreach($leaves as $leave)
         {
