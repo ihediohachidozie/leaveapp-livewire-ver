@@ -34,6 +34,10 @@
                     <x-jet-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
                         {{ __('Leave') }}
                     </x-jet-nav-link>
+                    <x-jet-nav-link href="{{ route('leave-roster') }}" :active="request()->routeIs('leave-roster')">
+                        {{ __('Leave Roster') }}
+                    </x-jet-nav-link>
+                    
                 @endif
                 @if(auth()->user()->role_id == 1)
                     <x-jet-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
@@ -169,27 +173,36 @@
             <x-jet-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('department') }}" :active="request()->routeIs('department')">
-                {{ __('Department') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('category') }}" :active="request()->routeIs('category')">
-                {{ __('Category') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('publicholiday') }}" :active="request()->routeIs('publicholiday')">
-                {{ __('Holiday') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
-                {{ __('Company') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
-                {{ __('Users') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
-                {{ __('Leave') }}
-            </x-jet-responsive-nav-link>
-            <x-jet-responsive-nav-link href="{{ route('user-roles') }}" :active="request()->routeIs('user-roles')">
-                {{ __('Leave') }}
-            </x-jet-responsive-nav-link>
+            @if(auth()->user()->role_id == 2)
+                <x-jet-responsive-nav-link href="{{ route('department') }}" :active="request()->routeIs('department')">
+                    {{ __('Department') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('category') }}" :active="request()->routeIs('category')">
+                    {{ __('Category') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('publicholiday') }}" :active="request()->routeIs('publicholiday')">
+                    {{ __('Holiday') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('users') }}" :active="request()->routeIs('users')">
+                    {{ __('Users') }}
+                </x-jet-responsive-nav-link>
+            @endif
+            @if(auth()->user()->role_id == 3 || auth()->user()->role_id == 2)
+                <x-jet-responsive-nav-link href="{{ route('leave') }}" :active="request()->routeIs('leave')">
+                    {{ __('Leave') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('leave-roster') }}" :active="request()->routeIs('leave-roster')">
+                    {{ __('Leave Roster') }}
+                </x-jet-responsive-nav-link>
+            @endif
+            @if(auth()->user()->role_id == 1)
+                <x-jet-responsive-nav-link href="{{ route('user-roles') }}" :active="request()->routeIs('user-roles')">
+                    {{ __('Roles') }}
+                </x-jet-responsive-nav-link>
+                <x-jet-responsive-nav-link href="{{ route('companies') }}" :active="request()->routeIs('companies')">
+                    {{ __('Company') }}
+                </x-jet-responsive-nav-link>
+            @endif
         </div>
         
         <!-- Responsive Settings Options -->

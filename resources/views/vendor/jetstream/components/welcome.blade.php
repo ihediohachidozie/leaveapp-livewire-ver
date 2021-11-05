@@ -72,6 +72,7 @@
             <div class="mt-2 text-sm text-gray-500">
                 List of leave allowance payment requests and exclusive to super users.
             </div> 
+            @if(auth()->user()->role_id == 2)
             <a href="{{route('leave-allowance')}}">
                 <div class="mt-3 flex items-center text-sm font-semibold text-indigo-700">
                     <div>@livewire('payment-request')</div>
@@ -81,6 +82,7 @@
                     </div>
                 </div>
             </a>
+            @endif
         </div>
     </div>
 

@@ -1,23 +1,26 @@
 <?php
 
+
 use App\Http\Livewire\ApplyCard;
 use App\Http\Livewire\Companies;
 use App\Http\Livewire\LeaveCard;
 use App\Http\Livewire\UsersList;
 use App\Http\Livewire\Categories;
+use App\Http\Livewire\SuperUsers;
 use App\Http\Livewire\Departments;
+use App\Http\Livewire\LeaveRoster;
 use App\Http\Livewire\LeaveStatus;
 use App\Http\Livewire\UpdateLeave;
 use App\Http\Livewire\ApprovalPage;
 use App\Http\Livewire\LeavePayment;
+use App\Http\Livewire\SearchResult;
 use App\Http\Livewire\LeaveApproval;
 use App\Http\Livewire\PublicHoliday;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\AllLeaveSummary;
+use App\Http\Livewire\OffDuty;
 use App\Http\Livewire\OpenLeaveStatus;
-use App\Http\Livewire\SearchResult;
 use App\Http\Livewire\StaffLeaveSummary;
-use App\Http\Livewire\SuperUsers;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +67,8 @@ Route::group(['middleware' => [ 'auth:sanctum', 'verified']], function () {
     Route::get('/staff-leave-summary', StaffLeaveSummary::class)->name('staff-leave-summary');
     Route::get('/open-leave-status', OpenLeaveStatus::class)->name('open-leave-status');
     Route::get('/user-roles', SuperUsers::class)->name('user-roles');
+    Route::get('/leave-roster', LeaveRoster::class)->name('leave-roster');
+    Route::get('/offduty', OffDuty::class)->name('whos-off');
 
 }); 
 

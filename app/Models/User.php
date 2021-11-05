@@ -100,6 +100,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Leave::class);     
     } 
+
+    
+    public function rosters()
+    {
+        return $this->hasMany(Roster::class);     
+    } 
+
     /**
  * Send a password reset notification to the user.
  *

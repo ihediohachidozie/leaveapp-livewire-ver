@@ -40,7 +40,7 @@ class PaymentRequest extends Component
 
     public function render()
     {
-        //$this->authorize('view', $this->leave);
+        $this->authorize('view', $this->leave);
 
         return view('livewire.payment-request', [
             'data' => $this->checkPaymentRequest()

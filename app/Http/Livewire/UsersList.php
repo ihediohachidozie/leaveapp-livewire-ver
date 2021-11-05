@@ -69,6 +69,7 @@ class UsersList extends Component
         $search = '%'.$this->search.'%';
         return User::where([['firstname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
         ->orWhere([['lastname', 'LIKE', '%'.$this->search.'%'], ['company_id', auth()->user()->company_id]])
+        ->orderBy('id', 'desc')
         ->paginate(10);
     }
     

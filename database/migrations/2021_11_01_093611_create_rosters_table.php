@@ -15,6 +15,9 @@ class CreateRostersTable extends Migration
     {
         Schema::create('rosters', function (Blueprint $table) {
             $table->id();
+            $table->integer('user_id');
+            $table->date('commencement_date');
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
