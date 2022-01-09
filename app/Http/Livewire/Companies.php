@@ -10,7 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Companies extends Component
 {
-    use WithPagination;
+    use WithPagination; 
     use AuthorizesRequests;
     
     public $name;
